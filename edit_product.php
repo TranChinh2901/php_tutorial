@@ -2,7 +2,7 @@
 
 include 'connect.php';
 $this_id = $_GET['this_id'];
-$sql = "SELECT * FROM products WHERE id='$this_id'";
+$sql = "SELECT * FROM products WHERE id_product='$this_id'";
 $query = mysqli_query($conn, $sql);
 
 $row = mysqli_fetch_assoc($query);
@@ -21,7 +21,7 @@ if (isset($_POST['update'])) {
         $image = $row['image'];
     }
 
-    $sql = "UPDATE products SET name='$name', image='$image', price='$price', priceGoc='$priceGoc', baoHanh='$baoHanh' WHERE id='$this_id'";
+    $sql = "UPDATE products SET name='$name', image='$image', price='$price', priceGoc='$priceGoc', baoHanh='$baoHanh' WHERE id_product='$this_id'";
     mysqli_query($conn, $sql);
     move_uploaded_file($image_tmp_name, 'img/products/' . $image);
     header('location:products.php');
@@ -37,7 +37,7 @@ if (isset($_POST['update'])) {
         <!-- Show message day -->
 
         <form method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="">
+            <input type="hidden" name="id_product" value="">
             <p>
                 <label>Tên:</label>
                 <input type="text" name="name" value="<?php echo ($row['name']); ?>">

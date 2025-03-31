@@ -1,5 +1,31 @@
 <html>
 
+<?php
+include 'connect.php';
+
+$noidung = "";
+$message = "";
+$result = null;
+
+if (isset($_POST['btn'])) {
+    $noidung = $_POST['noidung'];
+
+    if (empty($noidung)) {
+        $message = "⚠️ Vui lòng nhập nội dung tìm kiếm";
+    } else {
+        //timf kiếm sản phẩm theo tên
+        $sql = "SELECT * FROM products WHERE name LIKE '%$noidung%'";
+        $result = mysqli_query($conn, $sql);
+    }
+} else {
+    //Hiện toàn bộ sản phẩm nếu chưa tìm kiếm 
+    $sql = "SELECT * FROM products";
+    $result = mysqli_query($conn, $sql);
+}
+
+
+
+?>
 
 <style>
     table {
@@ -41,6 +67,14 @@
             <h2>Danh sách sản phẩm</h2>
             <a href="add_product.php">Tạo mới sản phẩm </a>
         </div>
+
+        <form method="POST" style="text-align: center;">
+            <input type="text" name="noidung" value="<?php echo htmlspecialchars($noidung); ?>">
+            <button type="submit" name="btn">Tìm kiếm</button>
+            <button type="submit" name="resect">Reload</button>
+            <p class="error"><?php echo $message; ?></p>
+        </form>
+
     </div>
     <table>
         <tr>
@@ -54,38 +88,29 @@
 
         </tr>
         <?php
-        include "connect.php";
-
-        $sql = "SELECT * FROM products";
-        $result = mysqli_query($conn, $sql);
-
-        while ($row = mysqli_fetch_array($result)) {
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
         ?>
-            <tr>
-                <td><?php echo $row['id'] ?></td>
-                <td><?php echo $row['name'] ?></td>
-                <td>
-                    <img width="50" height="55" src="img/products/<?php echo $row['image'] ?>" alt="<?php echo $row['name'] ?>">
-                </td>
-                <td><?php echo $row['price'] ?></td>
-                <td><?php echo $row['priceGoc'] ?></td>
-                <td><?php echo $row['baoHanh'] ?></td>
-                <td style="gap: 10px;">
-
-                    <span style="color: green; border: 1px solid grey; padding: 5px 10px; cursor: pointer;">
-                        <a href="edit_product.php?this_id=<?php echo $row['id'] ?>" style="color: green; text-decoration: none;">
-                            Sửa
-                        </a>
-                    </span>
-
-                    <span style="color: red;border: 1px solid grey; padding: 5px 10px; margin-left: 8px; cursor: pointer;">
-                        <a href="delete_product.php?this_id=<?php echo $row['id'] ?>" style="color: red; text-decoration: none;">Xóa</a>
-                    </span>
-                </td>
-            </tr>
-        <?php } ?>
-
-
+                <tr>
+                    <td><?php echo $row['id_product']; ?></td>
+                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td>
+                        <img width="50" height="55" src="img/products/<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
+                    </td>
+                    <td><?php echo $row['price']; ?></td>
+                    <td><?php echo $row['priceGoc']; ?></td>
+                    <td><?php echo $row['baoHanh']; ?></td>
+                    <td>
+                        <a href="edit_product.php?this_id=<?php echo $row['id_product']; ?>" style="color: green; text-decoration: none;">Sửa</a>
+                        <a href="delete_product.php?this_id=<?php echo $row['id_product']; ?>" style="color: red; text-decoration: none; margin-left: 10px;">Xóa</a>
+                    </td>
+                </tr>
+        <?php
+            }
+        } else {
+            echo "<tr><td colspan='7'>Không tìm thấy sản phẩm nào</td></tr>";
+        }
+        ?>
     </table>
 </body>
 
