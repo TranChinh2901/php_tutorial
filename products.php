@@ -101,7 +101,8 @@ if (isset($_POST['btn'])) {
                     <td><?php echo $row['priceGoc']; ?></td>
                     <td><?php echo $row['baoHanh']; ?></td>
                     <td>
-                        <a href="edit_product.php?this_id=<?php echo $row['id_product']; ?>" style="color: green; text-decoration: none;">Sửa</a>
+                        <a href="comment.php?this_id=<?php echo $row['id_product']; ?>" style="color: black; text-decoration: none;">Xem</a>
+                        <a href="edit_product.php?this_id=<?php echo $row['id_product']; ?>" style="color: green; text-decoration: none; margin-left: 10px;">Sửa</a>
                         <a href="delete_product.php?this_id=<?php echo $row['id_product']; ?>" style="color: red; text-decoration: none; margin-left: 10px;">Xóa</a>
                     </td>
                 </tr>

@@ -1,5 +1,9 @@
-<html>
+<?php
 
-<h1>comment</h1>
+include 'connect.php';
 
-</html>
+
+$this_id = $_GET['this_id'];
+echo $this_id;
+echo 
+
