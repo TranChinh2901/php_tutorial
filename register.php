@@ -45,7 +45,7 @@
         <label>Giới tính:</label>
         <input type="text" name="gender" required><br>
         <label>Chọn Role:</label>
-        <select name="role" class="role">
+        <select name="role" class="role">   
             <option value="0">User</option>
             <option value="1">Admin</option>
             <option value="2">Manager</option>
